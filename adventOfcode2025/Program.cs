@@ -33,6 +33,7 @@ class Program
             1 => new Day01(),
             // Add cases for new days here:
             2 => new Day02(),
+            3 => new Day03(),
             _ => throw new ArgumentException($"No solver found for Day {dayNumber}")
         };
 
