@@ -7,7 +7,7 @@ class Program
     static void Main(string[] args)
     {
         // CHANGE THIS TO RUN A DIFFERENT DAY
-        var dayNumber = 2;
+        var dayNumber = 3;
 
         Console.WriteLine($"--- Running Day {dayNumber} ---");
 
