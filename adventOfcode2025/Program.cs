@@ -7,7 +7,7 @@ class Program
     static void Main(string[] args)
     {
         // CHANGE THIS TO RUN A DIFFERENT DAY
-        var dayNumber = 4;
+        var dayNumber = 5;
 
         Console.WriteLine($"--- Running Day {dayNumber} ---");
 
@@ -35,6 +35,7 @@ class Program
             2 => new Day02(),
             3 => new Day03(),
             4 => new Day04(),
+            5 => new Day05(),
             _ => throw new ArgumentException($"No solver found for Day {dayNumber}")
         };
 
