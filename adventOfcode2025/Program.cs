@@ -25,8 +25,6 @@ class Program
             return;
         }
 
-        var input = File.ReadAllLines(inputPath);
-
         // 2. Instantiate the Solver
         ISolver solver = dayNumber switch
         {
@@ -42,8 +40,8 @@ class Program
         };
 
         // 3. Run Parts
-        RunPart("Part 1", () => solver.Part1(input));
-        RunPart("Part 2", () => solver.Part2(input));
+        RunPart("Part 1", () => solver.Part1(File.ReadAllLines(inputPath)));
+        RunPart("Part 2", () => solver.Part2(File.ReadAllLines(inputPath)));
     }
 
     static void RunPart(string partName, Func<object> action)
