@@ -6,7 +6,6 @@ public class Day06 : ISolver
 {
     public object Part1(string[] input)
     {
-        return 0;// dovrei creare un boilerplate migliore, inquino array di input facendo cosi
         List<Tuple<long, long>> Mahts = new List<Tuple<long, long>>(input[0].Length);
         Mahts.AddRange(Enumerable.Repeat(Tuple.Create(0L, 1L), input[0].Length));
         int i = 0;

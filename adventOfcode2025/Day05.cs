@@ -33,7 +33,7 @@ public class Day05:ISolver
 
     public object Part2(string[] input)
     {
-        //ParseInput(input);
+        ParseInput(input);
         ListofID = ListofID.OrderBy(x => x.Item1).ThenBy(x=>x.Item2).ToList();
         
         long ans=0;
