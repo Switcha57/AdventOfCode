@@ -84,20 +84,45 @@ public class Day03 : ISolver
         return result;
     }
 
-    public object Part2(string[] input) //dp
+    // public object Part2(string[] input) //dp
+    // {
+    //     long sumMax = 0;
+    //
+    //     foreach (var pack in input)
+    //     {
+    //         maxNumber = 0;
+    //         currPack = pack;
+    //         memo = new Dictionary<int, long>();
+    //         for(int i=0;i<13;i++) memo.Add(i,0);
+    //         
+    //         sumMax += dp(0, 0, 0, pack.Length - 12);
+    //     }
+    //
+    //     return sumMax;
+    // }
+    public object Part2(string[] input)//greedy è piu veloce, conviene sempre massimizare il primo indice
     {
         long sumMax = 0;
-
-        foreach (var pack in input)
+        foreach (var pack in input)  
         {
             maxNumber = 0;
-            currPack = pack;
-            memo = new Dictionary<int, long>();
-            for(int i=0;i<13;i++) memo.Add(i,0);
-            
-            sumMax += dp(0, 0, 0, pack.Length - 12);
+            int remSkip = pack.Length - 12;
+            int taken = 0;
+            int index = 0;
+            while (taken < 12)
+            {   
+                (var digitTaken,var skip)=pack.Take(index..(index + remSkip+1)).Select(((c, i) =>new {digit=c,indice=i})).Max(x=>
+               {
+                   return (x.digit - '0',-x.indice);//neg per default comparator
+               });
+                skip*=-1;
+               maxNumber = maxNumber * 10 + digitTaken;
+               taken++;
+               index+=skip+1;
+               remSkip-=skip;
+            }
+            sumMax+=maxNumber;
         }
-
         return sumMax;
     }
 }
