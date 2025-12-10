@@ -8,7 +8,8 @@ public class Day10 : ISolver
 {
     public object Part1(string[] input)
     {
-        List<int> solsCases=new List<int>();
+        // List<int> solsCases=new List<int>();
+        int ans = 0;
         foreach (var machine in input)
         {
             Match diagramMatch = Regex.Match(machine, @"\[([.#]+)\]");
@@ -62,21 +63,83 @@ public class Day10 : ISolver
                         }
                     }
                 }
+
                 return -1;
             }
-            solsCases.Add(Bfs());
+
+            ans += Bfs();
         }
-        solsCases.Dump();
+
+        // solsCases.Dump();
         // Match joltageMatch = Regex.Match(machine, @"\{([^}]+)\}");
         // string joltage = joltageMatch.Groups[1].Value;
-        return solsCases.Sum();
-
+        return ans;
     }
 
 
-public object Part2(string[] input)
-{
-    throw new NotImplementedException();
-}
+    public object Part2(string[] input)
+    {
+        long ans = 0;
+        foreach (var machine in input)
+        {
+            Match joltageMatch = Regex.Match(machine, @"\{([^}]+)\}");
+            int[] targets = joltageMatch.Groups[1].Value
+                .Split(',')
+                .Select(int.Parse)
+                .ToArray();
+            List<int[]> buttons = new List<int[]>();
+            foreach (Match match in Regex.Matches(machine, @"\(([^)]+)\)"))
+            {
+                int[] button = new int[targets.Length];
+                var toAdd = match.Groups[1].Value
+                    .Split(',')
+                    .Select(int.Parse)
+                    .ToArray();
+                foreach (var i in toAdd)
+                {
+                    button[i]++;
+                }
 
+                buttons.Add(button);
+            }
+
+            int Bfs()
+            {
+                var queue = new Queue<(int[] state, int presses)>();
+                var visited = new HashSet<int[]>();
+                var initialState = new int[targets.Length];
+                queue.Enqueue((initialState, 0));
+                visited.Add(initialState);
+
+                while (queue.Count > 0)
+                {
+                    var (currentState, presses) = queue.Dequeue();
+                    if (currentState.SequenceEqual(targets))
+                        return presses;
+                    if (currentState.Select((x, i) => new { pressed = x, indexs = i })
+                        .Any(x => targets[x.indexs] < x.pressed))
+                    {
+                        continue;
+                    }
+
+                    foreach (var v in buttons)
+                    {
+                        int[] newState = currentState.Select((x, i) => x + v[i]).ToArray();
+                        if (!visited.Contains(newState))
+                        {
+                            visited.Add(newState);
+                            queue.Enqueue((newState, presses + 1));
+                        }
+                    }
+                }
+
+                return -1;
+            }
+
+            ans += Bfs();
+        }
+        // solsCases.Dump();
+
+        return ans;
+    }
 }
