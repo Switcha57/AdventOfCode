@@ -7,7 +7,7 @@ class Program
     static void Main(string[] args)
     {
         // CHANGE THIS TO RUN A DIFFERENT DAY. Set to 0 to generate README with benchmarks.
-        var dayNumber = 10;
+        var dayNumber = 0;
 
         if (dayNumber == 0)
         {
