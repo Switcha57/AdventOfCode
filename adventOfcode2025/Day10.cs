@@ -3,7 +3,7 @@
 namespace adventOfcode2025;
 
 using Dumpify;
-
+using Microsoft.Z3;
 public class Day10 : ISolver
 {
     public object Part1(string[] input)
@@ -102,41 +102,58 @@ public class Day10 : ISolver
 
                 buttons.Add(button);
             }
-
-            int Bfs()
+            int SolveJoltageProblem(int[] targets, List<int[]> buttons)
             {
-                var queue = new Queue<(int[] state, int presses)>();
-                var visited = new HashSet<int[]>();
-                var initialState = new int[targets.Length];
-                queue.Enqueue((initialState, 0));
-                visited.Add(initialState);
-
-                while (queue.Count > 0)
+                using (Context ctx = new Context())
                 {
-                    var (currentState, presses) = queue.Dequeue();
-                    if (currentState.SequenceEqual(targets))
-                        return presses;
-                    if (currentState.Select((x, i) => new { pressed = x, indexs = i })
-                        .Any(x => targets[x.indexs] < x.pressed))
-                    {
-                        continue;
-                    }
+                    IntExpr[] buttonVars = buttons.Select((b, i) =>
+                        ctx.MkIntConst($"btn_{i}")).ToArray();
 
-                    foreach (var v in buttons)
+                    Optimize opt = ctx.MkOptimize();
+
+                    for (int counter = 0; counter < targets.Length; counter++)
                     {
-                        int[] newState = currentState.Select((x, i) => x + v[i]).ToArray();
-                        if (!visited.Contains(newState))
+                        ArithExpr sum = ctx.MkInt(0);
+                        for (int btnIdx = 0; btnIdx < buttons.Count; btnIdx++)
                         {
-                            visited.Add(newState);
-                            queue.Enqueue((newState, presses + 1));
+                            if (buttons[btnIdx][counter]>0)
+                            {
+                                sum = ctx.MkAdd(sum, buttonVars[btnIdx]);
+                            }
                         }
+
+                        // Constraint: sum must equal target
+                        opt.Add(ctx.MkEq(sum, ctx.MkInt(targets[counter])));
+                        
+                    }
+                    // Constraint: each button can only be pressed an positive number of times
+                    foreach (var buttonVar in buttonVars)opt.Add(ctx.MkGe(buttonVar, ctx.MkInt(0)));
+                    // 4. Objective: minimize total button presses
+                    ArithExpr totalPresses = ctx.MkAdd(buttonVars);
+                    opt.MkMinimize(totalPresses);
+                  //  Console.WriteLine(opt.ToString());
+                    if (opt.Check() == Status.SATISFIABLE)
+                    {
+                        Model model = opt.Model;
+                        int total = 0;
+                        for (int i = 0; i < buttonVars.Length; i++)
+                        {
+                            var dai= ((IntNum)model.Evaluate(buttonVars[i])).Int;
+                   //    Console.WriteLine($"Button {i}: {dai}");
+                            total += dai;
+                        }
+                        return total;
+                    }
+                    else
+                    {
+                        Console.WriteLine("No solution exists");
+                        return -1;
+                       
                     }
                 }
-
-                return -1;
             }
 
-            ans += Bfs();
+            ans+=SolveJoltageProblem(targets, buttons);
         }
         // solsCases.Dump();
 
