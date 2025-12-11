@@ -6,13 +6,14 @@ Solutions for Advent of Code 2025 in C#.
 
 | Day | Part 1 | Part 2 | Total |
 | --- | --- | --- | --- |
-| Day 1 | 8,02ms | 1,12ms | 9,13ms |
-| Day 2 | 29,92ms | 115,60ms | 145,52ms |
-| Day 3 | 46,42ms | 13,12ms | 59,55ms |
-| Day 4 | 2,97ms | 11,98ms | 14,95ms |
-| Day 5 | 2,48ms | 4,13ms | 6,61ms |
-| Day 6 | 10,28ms | 13,86ms | 24,13ms |
-| Day 7 | 1,44ms | 3,96ms | 5,40ms |
-| Day 8 | 172,98ms | 164,74ms | 337,72ms |
-| Day 9 | 1,86ms | 227,88ms | 229,75ms |
-| Day 10 | 17,46ms | 1736,10ms | 1753,57ms |
+| Day 1 | 7,42ms | 1,04ms | 8,46ms |
+| Day 2 | 29,00ms | 90,93ms | 119,93ms |
+| Day 3 | 53,08ms | 10,93ms | 64,01ms |
+| Day 4 | 2,54ms | 19,56ms | 22,09ms |
+| Day 5 | 3,39ms | 5,03ms | 8,42ms |
+| Day 6 | 10,63ms | 22,09ms | 32,72ms |
+| Day 7 | 1,11ms | 3,31ms | 4,42ms |
+| Day 8 | 177,89ms | 147,84ms | 325,72ms |
+| Day 9 | 2,64ms | 295,07ms | 297,71ms |
+| Day 10 | 9,53ms | 2082,15ms | 2091,67ms |
+| Day 11 | 2,42ms | 1,95ms | 4,36ms |
