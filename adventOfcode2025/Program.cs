@@ -7,7 +7,7 @@ class Program
     static void Main(string[] args)
     {
         // CHANGE THIS TO RUN A DIFFERENT DAY. Set to 0 to generate README with benchmarks.
-        var dayNumber=11;
+        var dayNumber=0;
 
         if (dayNumber == 0)
         {
@@ -125,8 +125,9 @@ class Program
         8 => new Day08(),
         9 => new Day09(),
         10 => new Day10(),
-        
         11 => new Day11(),
+        
+        12 => new Day12(),
         _ => throw new ArgumentException($"No solver found for Day {dayNumber}")
     };
 
